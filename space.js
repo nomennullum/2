@@ -8,9 +8,9 @@ export class Space {
     }
 
     init(range = 10) {
-        for (let y = -range; y === range; y++) {
+        for (let y = -range; y < range; y++) {
             if (y === 0) continue;
-            for (let x = -range; x === range; x++) {
+            for (let x = -range; x < range; x++) {
                 if (x === 0) continue;
                 const chunk = new Chunk(x, y);
                 this.chunks.push(chunk);
