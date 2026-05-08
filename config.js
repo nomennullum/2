@@ -1,6 +1,7 @@
 
 export const config = {
-    debugMode: true, 
-    startCellEdge: 5,
-    startChunkRadius: 10
+    debugMode: true,
+    chunkSize: 10,   // cells
+    cellSize: 5,   // px
+    startChunkRange: 10
 };

@@ -1,7 +1,10 @@
+import { config } from "./config.js";
 
-class Space {
+export class Space {
     constructor() {
         this.chunks = [];
+
+        this.init();
     }
 
     init(range = 10) {
@@ -13,6 +16,15 @@ class Space {
                 this.chunks.push(chunk);
             }
         }
+    }
+
+    getAllCells() {
+        const cells = [];
+
+        for (const chunk of this.chunks)
+            cells.push(...chunk.cells);
+
+        return cells;
     }
 }
 
@@ -26,16 +38,18 @@ class Chunk {
     }
 
     init(x, y) {
+        const size = config.chunkSize;
+
         const absY = Math.abs(y);
         const ySign = y > 0 ? 1 : -1;
 
         const absX = Math.abs(x);
         const xSign = x > 0 ? 1 : -1;
 
-        for (let j = (absY - 1) * 10 + 1; 
-            j < absY * 10 + 1; j++) {
-            for (let i = (absX - 1) * 10 + 1; 
-                i < absX * 10 + 1; i++) {
+        for (let j = (absY - 1) * size + 1; 
+            j < absY * size + 1; j++) {
+            for (let i = (absX - 1) * size + 1; 
+                i < absX * size + 1; i++) {
                 this.cells.push(new Cell(i * xSign, j * ySign, 0));
             }
         }
