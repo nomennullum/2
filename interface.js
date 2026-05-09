@@ -7,9 +7,12 @@ export class Interface {
         this.panStart = { x: null, y: null };
 
         const { canvas } = this.renderer;
+
         canvas.addEventListener('mousedown', this.startPanning);
         canvas.addEventListener('mousemove', this.panField);
         canvas.addEventListener('mouseup', this.stopPanning);
+
+        canvas.addEventListener('wheel', this.scaleField);
 
         console.log('interface initialized');
     }
@@ -36,5 +39,15 @@ export class Interface {
 
     stopPanning = (e) => {
         this.panning = false;
+    }
+
+    scaleField = (e) => {
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.3 : 0.7;
+
+        const { field } = this.renderer;
+        field.zoom(factor, e.pageX, e.pageY);
+
+        this.renderer.needsRedraw = true;
     }
 }

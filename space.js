@@ -7,11 +7,11 @@ export class Space {
         this.init();
     }
 
-    init(range = 10) {
+    init(range = 9) {
         for (let y = -range; y < range; y++) {
-            if (y === 0) continue;
+            //if (y === 0) continue;
             for (let x = -range; x < range; x++) {
-                if (x === 0) continue;
+                //if (x === 0) continue;
                 const chunk = new Chunk(x, y);
                 this.chunks.push(chunk);
             }
@@ -37,20 +37,13 @@ class Chunk {
         this.init(x, y);
     }
 
-    init(x, y) {
+    init(cx, cy) {
         const size = config.chunkSize;
-
-        const absY = Math.abs(y);
-        const ySign = y > 0 ? 1 : -1;
-
-        const absX = Math.abs(x);
-        const xSign = x > 0 ? 1 : -1;
-
-        for (let j = (absY - 1) * size + 1; 
-            j < absY * size + 1; j++) {
-            for (let i = (absX - 1) * size + 1; 
-                i < absX * size + 1; i++) {
-                this.cells.push(new Cell(i * xSign, j * ySign, 0));
+        for (let j = 0; j < size; j++) {
+            for (let i = 0; i < size; i++) {
+                const x = cx * size + i;
+                const y = cy * size + j;
+                this.cells.push(new Cell(x, y, 0));
             }
         }
     }
@@ -61,5 +54,6 @@ class Cell {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.highlit = false;
     }
 }
