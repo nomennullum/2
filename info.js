@@ -5,15 +5,19 @@ export class Info {
         this.canvas = canvas;
         this.field = field;
         this.hint = document.getElementById('hint');
+        this.cellUnderCursor = null;
         this.needsRedraw = false;
 
-        canvas.addEventListener('mousemove', this.showCellCoords);
-        canvas.addEventListener('wheel', this.showCellCoords);
+        canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+
+        canvas.addEventListener('mousemove', this.highlightCell);
+        canvas.addEventListener('mousedown', this.showCellCoords);
+        canvas.addEventListener('mouseup', this.hideCellCoords);
 
         console.log('hint initialized');
     }
 
-    showCellCoords = (e) => {
+    highlightCell = (e) => {
         const cells = this.state.space.getAllCells();
         
         for (const cell of cells) {
@@ -21,18 +25,37 @@ export class Info {
         }
         for (const cell of cells) {
             if (this.field.pointInCell(cell, e.pageX, e.pageY)) {
-                this.hint.style.display = 'block';
-                this.hint.style.left = `${e.pageX + 5}px`;
-                this.hint.style.top = `${e.pageY + 5}px`;
-                this.hint.innerHTML = `${cell.x},${cell.y}`;
-
+                this.cellUnderCursor = cell;
                 cell.highlit = true;
                 this.needsRedraw = true;
                 break;
-            } else {
-                this.hint.innerHTML = '';
-                this.hint.style.display = 'none';
             }
         }
+    }
+
+    showCellCoords = (e) => {
+        if (e.button !== 2) return;
+
+        this.hint.style.display = 'block';
+        this.updateHint(e);
+
+        this.canvas.addEventListener('mousemove', this.updateHint);
+    }
+
+    updateHint = (e) => {
+        const cell = this.cellUnderCursor;
+
+        this.hint.style.left = `${e.pageX}px`;
+        this.hint.style.top = `${e.pageY}px`;
+        this.hint.innerHTML = `${cell.x}, ${cell.y}`;
+    }
+
+    hideCellCoords = (e) => {
+        if (e.button !== 2) return;
+
+        this.hint.innerHTML = '';
+        this.hint.style.display = 'none';
+
+        this.canvas.removeEventListener('mousemove', this.updateHint);
     }
 }

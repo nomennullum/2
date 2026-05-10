@@ -20,8 +20,8 @@ class Field {
     }
 
     pan(dx, dy) {
-        this.x += dx;
-        this.y += dy;
+        this.x += dx / this.scale;
+        this.y += dy / this.scale;
     }
 
     zoom(factor, focusX, focusY) {
@@ -39,7 +39,7 @@ class Field {
 
     pointInCell(cell, x, y) {
         const height = config.cellSize * this.scale;
-        const width = height * 1.5 * this.scale;
+        const width = height * 1.5;
         const [cx, cy] = this.spaceToScreen(cell);
         
         return x >= cx && x <= cx + width &&
