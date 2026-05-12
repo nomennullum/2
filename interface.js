@@ -1,7 +1,9 @@
+import { brush } from "./brush.js";
 
 export class Interface {
     constructor(renderer) {
         this.renderer = renderer;
+        this.brush = brush;
 
         this.panning = false;
         this.panStart = { x: null, y: null };

@@ -29,6 +29,7 @@ class Port {
 
     initField(canvas) {
         this.state = state;
+        this.state.time.init();
         this.renderer = new Renderer(canvas);
         this.interface = new Interface(this.renderer);
     }

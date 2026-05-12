@@ -4,6 +4,7 @@ export class Info {
         this.state = state;
         this.canvas = canvas;
         this.field = field;
+        this.date = document.getElementById('date');
         this.hint = document.getElementById('hint');
         this.cellUnderCursor = null;
         this.needsRedraw = false;
@@ -57,5 +58,10 @@ export class Info {
         this.hint.style.display = 'none';
 
         this.canvas.removeEventListener('mousemove', this.updateHint);
+    }
+
+    upDate() {
+        const date = this.state.time.currentTime;
+        this.date.innerHTML = `${date.hour}; ${date.day}; ${date.year}`;
     }
 }

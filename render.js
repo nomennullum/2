@@ -78,10 +78,12 @@ export class Renderer {
 
     startRenderLoop() {
         const frame = () => {
-            if (this.needsRedraw || this.info.needsRedraw) {
+            if (this.needsRedraw || this.info.needsRedraw ||
+                this.info.state.time.hasChanged) {
                 this.needsRedraw = false;
                 this.info.needsRedraw = false;
                 this.render();
+                this.info.upDate();
             }
             requestAnimationFrame(frame);
         }
